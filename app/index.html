@@ -3,21 +3,109 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Vice Panels — GTA-style cover art maker</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
-  </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
-</main>
+<div class="shell">
+  <aside class="panel">
+    <header class="brand">
+      <h1>Vice Panels</h1>
+      <p>Turn your photos into multi-panel, GTA-style cover art. Everything happens on your machine: photos are never uploaded.</p>
+    </header>
+
+    <section class="card" aria-labelledby="photos-h">
+      <h2 id="photos-h">1 · Photos</h2>
+      <div id="dropzone" class="dropzone" tabindex="0">
+        <strong>Drop photos here</strong>
+        <span>or</span>
+        <label class="filebutton">Choose photos
+          <input id="fileinput" type="file" accept="image/*" multiple hidden>
+        </label>
+      </div>
+      <div class="row">
+        <button id="sample-both" type="button">Try the sample photos</button>
+      </div>
+      <div id="tray" class="tray" aria-label="Loaded photos"></div>
+      <p class="note">Tip: click a panel on the cover to select it, then click a photo above to put it in that panel. Drag on the cover to reposition, scroll to zoom.</p>
+    </section>
+
+    <section class="card" aria-labelledby="layout-h">
+      <h2 id="layout-h">2 · Panels</h2>
+      <div id="layouts" class="segrow" role="group" aria-label="Panel layout"></div>
+      <div class="segrow" role="group" aria-label="How photos fill the panels">
+        <button id="mode-spread" type="button" class="seg">One photo across panels</button>
+        <button id="mode-multi" type="button" class="seg">A photo in each panel</button>
+      </div>
+      <label class="field">Selected panel zoom
+        <input id="zoom" type="range" min="1" max="3" step="0.01" value="1">
+      </label>
+      <div class="row">
+        <button id="center-photo" type="button">Centre photo</button>
+        <button id="clear-panel" type="button">Clear panel</button>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="grade-h">
+      <h2 id="grade-h">3 · Colour grade</h2>
+      <div id="grades" class="segrow" role="group" aria-label="Colour grade"></div>
+      <label class="field">Grade strength
+        <input id="strength" type="range" min="0" max="1" step="0.01" value="0.85">
+      </label>
+      <label class="field">Panel borders
+        <select id="border">
+          <option value="#ffffff">White</option>
+          <option value="#101014">Black</option>
+          <option value="#ff2e88">Neon pink</option>
+          <option value="#19e3c2">Neon teal</option>
+        </select>
+      </label>
+    </section>
+
+    <section class="card" aria-labelledby="caption-h">
+      <h2 id="caption-h">4 · Caption</h2>
+      <label class="field">Title
+        <input id="title" type="text" maxlength="42" value="Vice City Nights">
+      </label>
+      <label class="field">Subtitle
+        <input id="subtitle" type="text" maxlength="60" value="One last ride along the boulevard">
+      </label>
+      <label class="field">Title size
+        <input id="titlesize" type="range" min="0.6" max="1.5" step="0.01" value="1">
+      </label>
+      <div class="segrow" role="group" aria-label="Caption position and colours">
+        <button id="pos-bottom" type="button" class="seg">Title at bottom</button>
+        <button id="pos-top" type="button" class="seg">Title at top</button>
+      </div>
+      <label class="field">Title colours
+        <select id="titlecolors">
+          <option value="white">White with black edge</option>
+          <option value="sunset">Sunset gradient</option>
+          <option value="neon">Neon pink</option>
+          <option value="gold">Gold</option>
+        </select>
+      </label>
+    </section>
+
+    <section class="card" aria-labelledby="export-h">
+      <h2 id="export-h">5 · Export</h2>
+      <div class="segrow" role="group" aria-label="Export size">
+        <button type="button" class="seg size-seg" data-size="1080x1080">Square 1080 × 1080</button>
+        <button type="button" class="seg size-seg" data-size="1080x1350">Portrait 1080 × 1350</button>
+        <button type="button" class="seg size-seg" data-size="1920x1080">Wide 1920 × 1080</button>
+      </div>
+      <button id="export" type="button" class="export">Export PNG</button>
+      <p id="status" class="note" role="status"></p>
+    </section>
+  </aside>
+
+  <main class="stage">
+    <div class="canvaswrap">
+      <canvas id="stage" width="1920" height="1080" aria-label="Cover preview"></canvas>
+    </div>
+    <p class="hint">Live preview at full export resolution. Drag a panel to move its photo; scroll over a panel to zoom it.</p>
+  </main>
+</div>
 <script type="module" src="./src/main.js"></script>
 </body>
 </html>

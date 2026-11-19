@@ -11,6 +11,11 @@
 // Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for /output:
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 
+// This entry's app is Vice Panels, a multi-panel GTA-style cover maker built in app/: four panel layouts, one
+// photo spread across the panels or a photo in each, per-photo crop and zoom, Vice City colour grades,
+// display-lettered captions and PNG export at 1080 x 1080, 1080 x 1350 and 1920 x 1080. The handover below is
+// the kit's plumbing and stays as it was handed out.
+
 import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
