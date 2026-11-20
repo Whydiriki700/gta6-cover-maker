@@ -1,10 +1,13 @@
-// Vice Panels editor: wires the page to the cover renderer.
+// Vice Grid editor: wires the page to the cover renderer.
 //
-// The maker loads photos (files from their machine, or the two samples), arranges them across the panels of
-// a layout, grades the colours, letters a caption and exports a PNG at a post size. All state lives in one
-// object; every control edits it and asks for a redraw, and the canvas is always painted at full export
-// resolution so the preview is the export. A `?shot=` address sets up a fixed scene instead, for screenshots:
-// ?shot=editor shows the workshop with the samples loaded, ?shot=cover shows one finished cover edge to edge.
+// The maker loads photos (files from their machine, or the two samples),
+// arranges them across the panels of a layout, grades the colours, letters a
+// caption and exports a PNG at a post size. All state lives in one object;
+// every control edits it and asks for a redraw, and the canvas is always
+// painted at full export resolution so the preview is the export. A `?shot=`
+// address sets up a fixed scene instead, for screenshots: ?shot=editor shows
+// the workshop with the samples loaded, ?shot=cover shows one finished cover
+// edge to edge.
 
 import { LAYOUTS, GRADES, layoutById, gradeById } from "./layouts.js";
 import { drawCoverArt, panelRects } from "./render.js";
@@ -327,10 +330,10 @@ document.getElementById("export").addEventListener("click", () => {
   canvas.toBlob((blob) => {
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `vice-panels-${state.size}.png`;
+    a.download = `vice-grid-${state.size}.png`;
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-    status.textContent = `Saved vice-panels-${state.size}.png`;
+    status.textContent = `Saved vice-grid-${state.size}.png`;
     redraw(true);
   }, "image/png");
 });

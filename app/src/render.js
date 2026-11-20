@@ -1,11 +1,14 @@
-// The cover renderer: paints the whole poster onto a 2D canvas context.
+// The cover renderer: paints the whole poster onto a 2D canvas.
 //
-// The poster is built in layers. First the border colour fills the canvas, then each panel is clipped and
-// painted with its photo (cover-fit, with the maker's pan and zoom), the colour grade is laid over the photo
-// as soft-light tints, and the panel's edge is keyed with a soft inner shadow. A vignette and a whisper of
-// film grain finish the print, and the caption is lettered over a shade band so it stays readable on any
-// photo. Everything is drawn from the state object the editor passes in; the same function paints the live
-// preview and the exported PNG, so what the maker sees is exactly what they share.
+// The poster is built in layers. First the border colour fills the canvas,
+// then each panel is clipped and painted with its photo (cover-fit, with the
+// maker's pan and zoom), the colour grade is laid over the photo as
+// soft-light tints, and the panel's edge is keyed with a soft inner shadow.
+// A vignette and a whisper of film grain finish the print, and the caption is
+// lettered over a shade band so it stays readable on any photo. Everything is
+// drawn from the state object the editor passes in; the same function paints
+// the live preview and the exported PNG, so what the maker sees is exactly
+// what they share.
 
 let grainTile = null;
 
@@ -34,8 +37,9 @@ function clamp(value, lo, hi) {
 }
 
 /**
- * Draws `img` into `rect` cover-fit, scaled by `zoom`, panned by (`dx`, `dy`) as fractions of the rect, and
- * clamped so the photo always covers the whole rect (no empty edges, ever).
+ * Draws `img` into `rect` cover-fit, scaled by `zoom`, panned by (`dx`, `dy`)
+ * as fractions of the rect, and clamped so the photo always covers the whole
+ * rect (no empty edges, ever).
  */
 function drawPhotoCover(ctx, rect, img, dx, dy, zoom) {
   const scale = Math.max(rect.w / img.naturalWidth, rect.h / img.naturalHeight) * zoom;
@@ -279,6 +283,14 @@ export function drawCoverArt(ctx, W, H, state) {
         drawPlaceholderScene(ctx, { x: 0, y: 0, w: W, h: H }, 1);
       }
       for (const overlay of state.grade.overlays) paintGradeOverlay(ctx, rect, overlay, state.strength);
+      // Same alternating warm/cool tint as per-panel mode, so a spread poster
+      // keeps the pasted-panel light across its borders.
+      ctx.globalCompositeOperation = "soft-light";
+      ctx.globalAlpha = 0.35;
+      ctx.fillStyle = i % 2 === 0 ? "rgba(255, 140, 60, 0.5)" : "rgba(60, 160, 255, 0.5)";
+      ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
+      ctx.globalAlpha = 1;
+      ctx.globalCompositeOperation = "source-over";
       ctx.restore();
       ctx.save();
       ctx.beginPath();

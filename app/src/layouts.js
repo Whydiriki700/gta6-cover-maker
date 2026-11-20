@@ -1,9 +1,16 @@
-// Panel layouts and colour grades for Vice Panels.
+// Vice Grid: panel layouts and colour grades.
 //
-// A layout is a list of rectangles in a unit square; the renderer scales them to the export size, so the same
-// collage works at 1080 x 1080, 1080 x 1350 and 1920 x 1080. The layouts are the poster's skeleton: a hero panel
-// with supporting panels reads as cover art, a plain grid reads as a contact sheet, so each layout keeps one
-// dominant panel or a strong rhythm.
+// A layout is a set of rectangles in unit coordinates; the renderer scales
+// them to whatever export size is picked, so one collage works at 1080x1080,
+// 1080x1350 and 1920x1080. Every layout is built around one dominant panel or
+// a strong rhythm: a plain even grid reads like a contact sheet, not a cover,
+// so the hero layouts keep one big panel and the six-panel one keeps a strict
+// two-row beat.
+//
+// A grade pairs a canvas filter with a stack of tint overlays painted over
+// each photo. The overlays use soft-light so the highlights keep their shape
+// while the shadows take the colour: that is what makes a phone photo feel
+// like a poster off the Vice City shelf.
 
 export const LAYOUTS = [
   {
@@ -51,9 +58,6 @@ export const LAYOUTS = [
   },
 ];
 
-// A grade is a canvas filter chain plus a stack of tint overlays the renderer paints over each photo. The
-// overlays use soft-light so highlights keep their shape while the shadows take the colour: that is what makes
-// a phone photo feel like a poster from the Vice City shelf.
 export const GRADES = [
   {
     id: "sunset",
