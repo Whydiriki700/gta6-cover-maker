@@ -3,109 +3,83 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vice Grid — make GTA-style cover art</title>
-<link rel="stylesheet" href="./style.css">
+<title>Vice Grid — GTA 6-style cover art maker</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="shell">
-  <aside class="panel">
-    <header class="brand">
+<header class="top">
+  <div class="brand">
+    <span class="brand-mark">VG</span>
+    <div>
       <h1>Vice Grid</h1>
-      <p>Your photos, cut into a multi-panel GTA-style poster. Nothing leaves your machine: photos are never uploaded.</p>
-    </header>
+      <p>Turn your photo and a caption into GTA 6-style cover art. Photos stay on your machine.</p>
+    </div>
+  </div>
+  <div class="top-actions">
+    <button id="export-btn" type="button" class="cta">Export PNG</button>
+  </div>
+</header>
 
-    <section class="card" aria-labelledby="photos-h">
-      <h2 id="photos-h">1 · Your photos</h2>
-      <div id="dropzone" class="dropzone" tabindex="0">
-        <strong>Drop photos here</strong>
-        <span>or</span>
-        <label class="filebutton">Pick photos
-          <input id="fileinput" type="file" accept="image/*" multiple hidden>
-        </label>
+<main class="sheet">
+  <section class="stage-wrap">
+    <canvas id="stage" width="1080" height="1080" aria-label="Cover preview"></canvas>
+    <p class="stage-hint">Drag a photo to move it, scroll to zoom, click a panel to select it.</p>
+  </section>
+
+  <aside class="panel">
+    <section class="group">
+      <h2>Layout</h2>
+      <div id="layout-picks" class="picks"></div>
+    </section>
+
+    <section class="group">
+      <h2>Vice grade</h2>
+      <div id="grade-picks" class="picks"></div>
+      <label class="slider-row">Strength <input id="strength" type="range" min="0" max="100" value="70"> <span id="strength-val">70%</span></label>
+    </section>
+
+    <section class="group">
+      <h2>Photo</h2>
+      <div class="picks">
+        <button id="mode-spread" type="button" class="pick" data-mode="spread">Spread</button>
+        <button id="mode-panels" type="button" class="pick" data-mode="panels">Per panel</button>
       </div>
+      <p id="panel-label" class="note">Spread photo — one image fills every panel</p>
       <div class="row">
-        <button id="sample-both" type="button">Load the sample photos</button>
+        <button id="upload-btn" type="button" class="btn">Upload photo</button>
+        <input id="upload" type="file" accept="image/*" hidden>
       </div>
-      <div id="tray" class="tray" aria-label="Loaded photos"></div>
-      <p class="note">How it works: click a panel on the cover to pick it, then click a photo above to fill it. Drag on the cover to move the photo, scroll to zoom in.</p>
+      <p class="note">Or start from a sample:</p>
+      <div id="sample-row" class="picks"></div>
     </section>
 
-    <section class="card" aria-labelledby="layout-h">
-      <h2 id="layout-h">2 · The panels</h2>
-      <div id="layouts" class="segrow" role="group" aria-label="Panel layout"></div>
-      <div class="segrow" role="group" aria-label="How photos fill the panels">
-        <button id="mode-spread" type="button" class="seg">One photo across all panels</button>
-        <button id="mode-multi" type="button" class="seg">A different photo per panel</button>
-      </div>
-      <label class="field">Zoom of the selected panel
-        <input id="zoom" type="range" min="1" max="3" step="0.01" value="1">
-      </label>
-      <div class="row">
-        <button id="center-photo" type="button">Centre the photo</button>
-        <button id="clear-panel" type="button">Empty this panel</button>
-      </div>
-    </section>
-
-    <section class="card" aria-labelledby="grade-h">
-      <h2 id="grade-h">3 · The grade</h2>
-      <div id="grades" class="segrow" role="group" aria-label="Colour grade"></div>
-      <label class="field">How strong the grade is
-        <input id="strength" type="range" min="0" max="1" step="0.01" value="0.85">
-      </label>
-      <label class="field">Lines between panels
-        <select id="border">
-          <option value="#ffffff">White</option>
-          <option value="#101014">Black</option>
-          <option value="#ff2e88">Neon pink</option>
-          <option value="#19e3c2">Neon teal</option>
-        </select>
-      </label>
-    </section>
-
-    <section class="card" aria-labelledby="caption-h">
-      <h2 id="caption-h">4 · The caption</h2>
+    <section class="group">
+      <h2>Caption</h2>
+      <div id="caption-picks" class="picks"></div>
       <label class="field">Headline
-        <input id="title" type="text" maxlength="42" value="Vice City Nights">
+        <input id="headline" type="text" value="Sunset Heist" maxlength="48">
       </label>
-      <label class="field">Tagline
-        <input id="subtitle" type="text" maxlength="60" value="One last ride along the boulevard">
+      <label class="field">Subtitle
+        <input id="subtitle" type="text" value="Leonida Nights" maxlength="64">
       </label>
-      <label class="field">Headline size
-        <input id="titlesize" type="range" min="0.6" max="1.5" step="0.01" value="1">
-      </label>
-      <div class="segrow" role="group" aria-label="Caption position and colours">
-        <button id="pos-bottom" type="button" class="seg">Headline at the bottom</button>
-        <button id="pos-top" type="button" class="seg">Headline at the top</button>
+      <div class="picks">
+        <button id="place-top" type="button" class="pick" data-place="top">Top</button>
+        <button id="place-bottom" type="button" class="pick" data-place="bottom">Bottom</button>
       </div>
-      <label class="field">Headline colours
-        <select id="titlecolors">
-          <option value="white">White with a black edge</option>
-          <option value="sunset">Sunset gradient</option>
-          <option value="neon">Neon pink</option>
-          <option value="gold">Gold</option>
-        </select>
-      </label>
     </section>
 
-    <section class="card" aria-labelledby="export-h">
-      <h2 id="export-h">5 · Save it</h2>
-      <div class="segrow" role="group" aria-label="Export size">
-        <button type="button" class="seg size-seg" data-size="1080x1080">Square · 1080 × 1080</button>
-        <button type="button" class="seg size-seg" data-size="1080x1350">Portrait · 1080 × 1350</button>
-        <button type="button" class="seg size-seg" data-size="1920x1080">Wide · 1920 × 1080</button>
-      </div>
-      <button id="export" type="button" class="export">Export as PNG</button>
-      <p id="status" class="note" role="status"></p>
+    <section class="group">
+      <h2>Export size</h2>
+      <div id="size-picks" class="picks"></div>
+      <p class="note">Exports a PNG at the chosen size. The preview above is the real cover.</p>
     </section>
   </aside>
+</main>
 
-  <main class="stage">
-    <div class="canvaswrap">
-      <canvas id="stage" width="1920" height="1080" aria-label="Cover preview"></canvas>
-    </div>
-    <p class="hint">The preview is painted at full export resolution. Drag a panel to move its photo; scroll over a panel to zoom it.</p>
-  </main>
-</div>
-<script type="module" src="./src/main.js"></script>
+<footer class="foot">
+  <p>Vice Grid is an original fan-made cover tool. Not affiliated with Rockstar Games. Display type: Anton (SIL Open Font License).</p>
+</footer>
+
+<script type="module" src="src/main.js"></script>
 </body>
 </html>

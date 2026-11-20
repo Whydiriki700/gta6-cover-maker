@@ -1,118 +1,134 @@
-// Vice Grid: panel layouts and colour grades.
-//
-// A layout is a set of rectangles in unit coordinates, each written as
-// [left, top, width, height]. The renderer scales them to the export size,
-// so one collage works at 1080x1080, 1080x1350 and 1920x1080. Every layout is
-// built around one dominant panel or a strong rhythm: a plain even grid reads
-// like a contact sheet, not a cover, so the hero layouts keep one big panel
-// and the six-panel one keeps a strict two-row beat.
-//
-// A grade pairs a CSS filter string with a stack of tint washes painted over
-// each photo. The washes use soft-light so the highlights keep their shape
-// while the shadows take the colour: that is what makes a phone photo feel
-// like a poster off the Vice City shelf. A wash is [blend, opacity, stops],
-// where stops are [position, colour] pairs along a vertical gradient.
+// Vice Grid — layout, grade and caption definitions.
+// Every panel is a rectangle in fractions of the cover (x, y, w, h).
+// A grade is a pair of sky colours plus a canvas filter; a caption scheme
+// is a way of lettering the headline and subtitle onto the finished cover.
 
 export const LAYOUTS = [
   {
-    id: "cover-story",
-    name: "Cover Story",
+    id: 'cover-story',
+    name: 'Cover Story',
+    blurb: 'One tall hero panel on the left, five stacked moments on the right.',
     panels: [
-      [0, 0, 0.6, 0.64],
-      [0.6, 0, 0.4, 0.32],
-      [0.6, 0.32, 0.4, 0.32],
-      [0, 0.64, 0.34, 0.36],
-      [0.34, 0.64, 0.33, 0.36],
-      [0.67, 0.64, 0.33, 0.36],
+      { x: 0, y: 0, w: 0.62, h: 1 },
+      { x: 0.62, y: 0, w: 0.38, h: 0.2 },
+      { x: 0.62, y: 0.2, w: 0.38, h: 0.2 },
+      { x: 0.62, y: 0.4, w: 0.38, h: 0.2 },
+      { x: 0.62, y: 0.6, w: 0.38, h: 0.2 },
+      { x: 0.62, y: 0.8, w: 0.38, h: 0.2 },
     ],
   },
   {
-    id: "hero-strip",
-    name: "Hero + Strip",
+    id: 'hero-strip',
+    name: 'Hero + Strip',
+    blurb: 'A wide hero shot above a three-panel strip of highlights.',
     panels: [
-      [0, 0, 1, 0.68],
-      [0, 0.68, 0.34, 0.32],
-      [0.34, 0.68, 0.33, 0.32],
-      [0.67, 0.68, 0.33, 0.32],
+      { x: 0, y: 0, w: 1, h: 0.68 },
+      { x: 0, y: 0.68, w: 1 / 3, h: 0.32 },
+      { x: 1 / 3, y: 0.68, w: 1 / 3, h: 0.32 },
+      { x: 2 / 3, y: 0.68, w: 1 / 3, h: 0.32 },
     ],
   },
   {
-    id: "triptych",
-    name: "Triptych",
+    id: 'triptych',
+    name: 'Triptych',
+    blurb: 'Three equal upright panels, one story told three ways.',
     panels: [
-      [0, 0, 0.34, 1],
-      [0.34, 0, 0.33, 1],
-      [0.67, 0, 0.33, 1],
+      { x: 0, y: 0, w: 1 / 3, h: 1 },
+      { x: 1 / 3, y: 0, w: 1 / 3, h: 1 },
+      { x: 2 / 3, y: 0, w: 1 / 3, h: 1 },
     ],
   },
   {
-    id: "six-pack",
-    name: "Six Pack",
+    id: 'six-pack',
+    name: 'Six Pack',
+    blurb: 'A three-by-two grid for a full night out in Leonida.',
     panels: [
-      [0, 0, 0.34, 0.5],
-      [0.34, 0, 0.33, 0.5],
-      [0.67, 0, 0.33, 0.5],
-      [0, 0.5, 0.34, 0.5],
-      [0.34, 0.5, 0.33, 0.5],
-      [0.67, 0.5, 0.33, 0.5],
+      { x: 0, y: 0, w: 1 / 3, h: 0.5 },
+      { x: 1 / 3, y: 0, w: 1 / 3, h: 0.5 },
+      { x: 2 / 3, y: 0, w: 1 / 3, h: 0.5 },
+      { x: 0, y: 0.5, w: 1 / 3, h: 0.5 },
+      { x: 1 / 3, y: 0.5, w: 1 / 3, h: 0.5 },
+      { x: 2 / 3, y: 0.5, w: 1 / 3, h: 0.5 },
     ],
   },
 ];
 
 export const GRADES = [
   {
-    id: "sunset",
-    name: "Vice Sunset",
-    css: "saturate(1.4) contrast(1.12) brightness(1.04)",
-    washes: [
-      ["soft-light", 1, [[0, "rgba(255, 180, 70, 0.22)"], [0.45, "rgba(255, 115, 70, 0.06)"], [1, "rgba(255, 48, 118, 0.44)"]]],
-      ["multiply", 1, [[0, "rgba(66, 18, 94, 0)"], [1, "rgba(66, 18, 94, 0.32)"]]],
-    ],
+    id: 'neon',
+    name: 'Neon Vice',
+    sky: ['#ff2e88', '#00e5ff'],
+    ink: '#ff2e88',
+    filter: { saturate: 1.38, contrast: 1.09, brightness: 1.02, hue: 0 },
+    tint: 0.34,
   },
   {
-    id: "neon",
-    name: "Neon Nights",
-    css: "saturate(1.55) contrast(1.18) brightness(1.0)",
-    washes: [
-      ["soft-light", 1, [[0, "rgba(0, 232, 255, 0.24)"], [0.5, "rgba(22, 22, 62, 0.05)"], [1, "rgba(255, 0, 155, 0.42)"]]],
-      ["multiply", 1, [[0, "rgba(9, 9, 42, 0.28)"], [0.4, "rgba(9, 9, 42, 0)"]]],
-    ],
+    id: 'golden',
+    name: 'Golden Hour',
+    sky: ['#ffb347', '#ff5e3a'],
+    ink: '#ff9a3d',
+    filter: { saturate: 1.26, contrast: 1.06, brightness: 1.04, hue: -8 },
+    tint: 0.3,
   },
   {
-    id: "golden",
-    name: "Golden Hour",
-    css: "saturate(1.25) contrast(1.07) brightness(1.06) sepia(0.24)",
-    washes: [
-      ["soft-light", 1, [[0, "rgba(255, 198, 66, 0.26)"], [1, "rgba(216, 92, 22, 0.32)"]]],
-    ],
+    id: 'teal',
+    name: 'Teal Nights',
+    sky: ['#00e5c7', '#0b3d66'],
+    ink: '#00e5c7',
+    filter: { saturate: 1.16, contrast: 1.08, brightness: 0.99, hue: -12 },
+    tint: 0.32,
   },
   {
-    id: "noir",
-    name: "Midnight Noir",
-    css: "grayscale(0.88) contrast(1.3) brightness(0.97)",
-    washes: [
-      ["multiply", 1, [[0, "rgba(11, 11, 28, 0.32)"], [0.55, "rgba(11, 11, 28, 0)"], [1, "rgba(11, 11, 28, 0.4)"]]],
-    ],
-  },
-  {
-    id: "none",
-    name: "No grade",
-    css: "none",
-    washes: [],
+    id: 'mono',
+    name: 'Mono Noir',
+    sky: ['#e8e8e8', '#1a1a1a'],
+    ink: '#f2f2f2',
+    filter: { saturate: 0, contrast: 1.16, brightness: 1.0, hue: 0 },
+    tint: 0.22,
   },
 ];
 
+export const CAPTIONS = [
+  {
+    id: 'slant',
+    name: 'Slant Banner',
+    hint: 'A slanted ribbon carries the headline; the subtitle sits under it.',
+  },
+  {
+    id: 'block',
+    name: 'Block Stack',
+    hint: 'Huge stacked headline, subtitle tucked underneath in a bar.',
+  },
+  {
+    id: 'badge',
+    name: 'Corner Badge',
+    hint: 'A rounded badge in the corner holds the headline and subtitle.',
+  },
+  {
+    id: 'marquee',
+    name: 'Marquee Strip',
+    hint: 'A full-width strip along the edge, headline left, subtitle right.',
+  },
+];
+
+export const EXPORT_SIZES = [
+  { id: 'square', name: 'Square', w: 1080, h: 1080, label: '1080 × 1080' },
+  { id: 'portrait', name: 'Portrait', w: 1080, h: 1350, label: '1080 × 1350' },
+  { id: 'wide', name: 'Wide', w: 1920, h: 1080, label: '1920 × 1080' },
+];
+
 export function layoutById(id) {
-  for (const layout of LAYOUTS) if (layout.id === id) return layout;
-  return LAYOUTS[0];
+  return LAYOUTS.find((l) => l.id === id) || LAYOUTS[0];
 }
 
 export function gradeById(id) {
-  for (const grade of GRADES) if (grade.id === id) return grade;
-  return GRADES[0];
+  return GRADES.find((g) => g.id === id) || GRADES[0];
 }
 
-/** How many panels a layout has. */
-export function panelCount(id) {
-  return layoutById(id).panels.length;
+export function captionById(id) {
+  return CAPTIONS.find((c) => c.id === id) || CAPTIONS[0];
+}
+
+export function sizeById(id) {
+  return EXPORT_SIZES.find((s) => s.id === id) || EXPORT_SIZES[0];
 }

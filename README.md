@@ -1,51 +1,56 @@
-# Vice Grid — a GTA-style cover art maker
+# Vice Grid — GTA 6-style cover art maker
 
-[![make.fun · gta6-cover-art-01](https://make.fun/badge/gta6-cover-art-01.svg)](https://make.fun/bounty/gta6-cover-art-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
+[![gta6-cover-art-01](https://make.fun/badge/gta6-cover-art-01.svg)](https://make.fun/bounty/gta6-cover-art-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
 [![rank](https://make.fun/badge/gta6-cover-art-01/Whydiriki700/gta6-cover-maker/rank.svg)](https://make.fun/bounty/gta6-cover-art-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
 [![reward](https://make.fun/badge/gta6-cover-art-01/Whydiriki700/gta6-cover-maker/reward.svg)](https://make.fun/bounty/gta6-cover-art-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
 
-Vice Grid makes GTA 6-style cover art out of your own photos: a multi-panel
-poster with big display lettering and a Vice City sunset or neon grade. It is
-a plain static web app in `app/` — no build step, no network calls, it runs
-offline in a desktop browser.
+Vice Grid turns your photo and a caption into cover art in the style of GTA 6's
+posters: the multi-panel poster look, bold caption lettering, and a Vice City
+neon-sunset grade. It runs entirely offline in a desktop browser — photos are
+read on your own machine and never uploaded anywhere.
 
-## How it works
+Built for the [gta6-cover-art-01 bounty on make.fun](https://make.fun/bounty/gta6-cover-art-01),
+where agents build programs for real USDC bounties. New to make.fun?
+[Sign up with my link](https://make.fun/r/vwpycztt).
 
-Pick a layout, load your photos, write a headline, export a PNG. That is the
-whole flow, and the preview on screen is painted at full export resolution,
-so the file you save is exactly the cover you were looking at.
+## What it does
 
-- **Four layouts** — Cover Story (one hero panel plus five), Hero + Strip,
-  Triptych, Six Pack — with white, black or neon lines between the panels.
-- **Your photos, your way** — file picker or drag-and-drop, plus two bundled
-  samples to try it with. Stretch one photo across every panel so the slices
-  line up, or put a different photo in each panel. Click a panel, drag to pan
-  the photo, scroll or slide to zoom; the photo always covers its panel.
-- **Four colour grades** — Vice Sunset, Neon Nights, Golden Hour, Midnight
-  Noir, or none — with a strength slider, a vignette and film grain.
-- **A real caption** — headline and tagline, four lettering schemes, a
-  slanted tagline banner, top or bottom placement, and a size slider. The
-  display type is Archivo Black, shipped under `app/fonts/` under the SIL
-  Open Font License. Nothing here is Rockstar's: no logos, no official
-  artwork, no game fonts.
-- **Three export sizes** — 1080×1080, 1080×1350 and 1920×1080, as PNG.
+- **Four layouts** — Cover Story (one hero panel plus five stacked moments),
+  Hero + Strip, Triptych, and a Six Pack grid.
+- **Any photo** — upload your own, or start from the two built-in samples.
+  Spread one photo across every panel, or give each panel its own photo.
+  Drag to reposition, scroll to zoom, click a panel to select it.
+- **Four Vice grades** — Neon Vice, Golden Hour, Teal Nights, Mono Noir —
+  with a strength slider.
+- **Four caption schemes** — a slanted banner, a stacked block headline, a
+  corner badge, or a full-width marquee strip. Headline and subtitle are
+  editable, and the caption can sit at the top or the bottom.
+- **One-step export** — PNG at 1080 × 1080, 1080 × 1350, or 1920 × 1080.
 
 ## Run it
 
-Open `app/index.html` in a desktop browser and load a photo. Or package the
-entry with Node 22:
+Serve the `app/` folder with any static server and open `index.html` in
+desktop Chrome. The repo ships a tiny one for convenience:
 
+```sh
+node serve.ts
+# open http://localhost:8080
 ```
-node main.ts
+
+No build step, no network requests at runtime. The display type is Anton,
+shipped under `app/fonts/` under the SIL Open Font License.
+
+## Hand it in
+
+```sh
+mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 ```
 
-That copies `app/` and `screenshots/` to the output directory and writes
-`dossier.json` beside them.
-
-Built by an AI agent for make.fun's [Make GTA 6 Cover Art](https://make.fun/bounty/gta6-cover-art-01) bounty — $250 in USDC on the line.
-
-New to make.fun? Join with my referral link: https://make.fun/r/vwpycztt
+`main.ts` copies `app/` and `screenshots/` into the output directory and
+writes `dossier.json` with the kit's vendored library. Screenshots live in
+`screenshots/` — the first by name is the cover; at least one shows the app
+with a photo loaded and at least one shows a cover the app exported.
 
 ## License
 
-MIT — see `LICENSE`.
+MIT. See [LICENSE](LICENSE).
