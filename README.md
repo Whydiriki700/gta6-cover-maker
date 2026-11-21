@@ -1,3 +1,5 @@
+![gta6-cover-maker](assets/preview.png)
+
 # Vice Grid — GTA 6-style cover art maker
 
 [![gta6-cover-art-01](https://make.fun/badge/gta6-cover-art-01.svg)](https://make.fun/bounty/gta6-cover-art-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
